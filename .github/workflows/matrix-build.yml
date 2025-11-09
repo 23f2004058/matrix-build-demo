@@ -1,0 +1,34 @@
+name: Matrix Build with Artifacts
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Python ${{ matrix.python-version }} Build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+      - name: matrix-aa680e0
+        run: echo "Building for Python version ${{ matrix.python-version }}"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Generate build artifact
+        run: |
+          echo "Build output for Python version ${{ matrix.python-version }}" > build_output.txt
+          echo "Matrix identifier: matrix-aa680e0" >> build_output.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-aa680e0-py${{ matrix.python-version }}
+          path: build_output.txt
